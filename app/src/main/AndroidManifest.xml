@@ -19,6 +19,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddFeedActivity"
+            android:label="@string/title_activity_add_feed"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.tomlam.rssfeed.MainActivity" />
+        </activity>
+        <activity
+            android:name=".EditRssFeedActivity"
+            android:label="@string/title_activity_edit_rss_feed"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.tomlam.rssfeed.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
