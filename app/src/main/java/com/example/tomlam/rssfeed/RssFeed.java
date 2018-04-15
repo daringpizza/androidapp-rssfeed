@@ -11,9 +11,10 @@ public class RssFeed {
         rssFeedAddress = address;
     }
 
-    public RssFeed(int feedId, String title, String address) {
+    public RssFeed(int rssId, String title, String address) {
         rssFeedTitle = title;
         rssFeedAddress = address;
-        id = feedId;
+        id = rssId;
     }
+
 }

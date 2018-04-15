@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp">
 
     <TextView
         android:id="@+id/rssEditFeedTitleTextView"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Title RSS View" />
+        android:text="Title RSS View"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/rssEditFeedAddressTextView"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rssEditFeedTitleTextView"
+        android:textColor="@color/colorPrimaryDark"
         android:text="www.rss.feed.com" />
+
+    <ImageView
+        android:id="@+id/deleteRSSFeedButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:tint="@color/colorAccent"
+        app:srcCompat="@drawable/ic_icons8_trash" />
+
 
 </RelativeLayout>
