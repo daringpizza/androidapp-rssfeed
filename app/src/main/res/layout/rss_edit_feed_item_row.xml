@@ -24,7 +24,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:text="www.rss.feed.com" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/deleteRSSFeedButton"
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -34,6 +34,17 @@
         android:layout_marginRight="5dp"
         android:tint="@color/colorAccent"
         app:srcCompat="@drawable/ic_icons8_trash" />
+
+    <ImageButton
+        android:id="@+id/changeRSSFeedButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="40dp"
+        android:tint="@color/colorAccent"
+        app:srcCompat="@drawable/changefeedicon" />
 
 
 </RelativeLayout>

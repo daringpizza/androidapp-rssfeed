@@ -1,12 +1,15 @@
 package com.example.tomlam.rssfeed;
 
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.List;
 public class EditRssFeedActivity extends AppCompatActivity {
     List<RssFeed> feeds;
     ListView listView;
+    BroadcastReceiver mRssListViewRefreshReceiver;
+    RssFeedsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,38 +27,37 @@ public class EditRssFeedActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mRssListViewRefreshReceiver = createRssListViewRefreshReceiverHandler();
+        final FloatingActionButton addFeedButton = findViewById(R.id.addFeedButton);
+        addFeedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(addFeedButton.getContext(), AddFeedActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mRssListViewRefreshReceiver, new IntentFilter(Utils.EDIT_RSS_FEEDS_REFRESH_INTENT)
+        );
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         feeds = new Database(this).getRssFeeds();
-        RssFeedsAdapter adapter = new RssFeedsAdapter(this, feeds);
+        adapter = new RssFeedsAdapter(this, feeds);
 
         listView = findViewById(R.id.editRssListView);
         listView.setAdapter(adapter);
+    }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private BroadcastReceiver createRssListViewRefreshReceiverHandler() {
+        return new BroadcastReceiver() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(EditRssFeedActivity.this);
-                dialog.setTitle("Remove Feed");
-                dialog.setMessage("Are you sure you want to remove this feed?");
-
-                final int positionToRemove = position;
-
-
-                dialog.setPositiveButton("Yes", new AlertDialog.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        RssFeed selectedFeed = feeds.get(positionToRemove);
-                        new Database(EditRssFeedActivity.this).deleteRssFeed(selectedFeed);
-
-                        feeds = new Database(EditRssFeedActivity.this).getRssFeeds();
-                        RssFeedsAdapter adapterNew = new RssFeedsAdapter(EditRssFeedActivity.this, feeds);
-
-                        listView.setAdapter(adapterNew);
-                    }
-                });
-                dialog.setNegativeButton("No", null);
-                dialog.show();
+            public void onReceive(Context context, Intent intent) {
+                feeds = new Database(EditRssFeedActivity.this).getRssFeeds();
+                adapter = new RssFeedsAdapter(EditRssFeedActivity.this, feeds);
+                listView.setAdapter(adapter);
             }
-        });
+        };
     }
 }

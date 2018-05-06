@@ -26,7 +26,7 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_FEEDS_TABLE = "CREATE TABLE " + TABLE_FEEDS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_FEEDTITLE + " TEXT," + KEY_FEEDADDRESS + " TEXT" + ")";
+        String CREATE_FEEDS_TABLE = "CREATE TABLE " + TABLE_FEEDS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_FEEDTITLE + " TEXT," + KEY_FEEDADDRESS + " TEXT" + ")";
         db.execSQL(CREATE_FEEDS_TABLE);
     }
 
@@ -48,6 +48,16 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void updateRssFeed(int id, String newTitle, String newAddress) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_FEEDTITLE, newTitle);
+        values.put(KEY_FEEDADDRESS, newAddress);
+
+        db.update(TABLE_FEEDS, values, KEY_ID + " = ? ", new String[]{String.valueOf(id)});
+        db.close();
+    }
+
     public List<RssFeed> getRssFeeds() {
         List<RssFeed> results = new ArrayList<RssFeed>();
         String selectQuery = "SELECT * FROM " + TABLE_FEEDS;
@@ -63,6 +73,20 @@ public class Database extends SQLiteOpenHelper {
 
         db.close();
         return results;
+    }
+
+    public RssFeed getRssFeedByID(int id) {
+        String selectQuery = "SELECT * FROM " + TABLE_FEEDS + " WHERE id=" + id;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            RssFeed rssFeed = new RssFeed(Integer.parseInt(cursor.getString(0)), cursor.getString((1)), cursor.getString(2));
+            return rssFeed;
+        }
+
+        db.close();
+        return null;
     }
 
     public void deleteRssFeed(RssFeed feed) {

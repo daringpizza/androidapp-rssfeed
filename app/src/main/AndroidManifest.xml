@@ -24,7 +24,7 @@
         <activity
             android:name=".AddFeedActivity"
             android:label="@string/title_activity_edit_rss_feed"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".EditRssFeedActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -34,6 +34,15 @@
             android:name=".EditRssFeedActivity"
             android:label="@string/title_activity_edit_rss_feed"
             android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.tomlam.rssfeed.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ChangeFeedActivity"
+            android:label="@string/title_activity_change_rss_feed"
+            android:parentActivityName=".EditRssFeedActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
